@@ -7,17 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #2b1608;
-    --surface: #3a1f0a;
-    --card: #472812;
-    --accent: #ffffff;
-    --accent2: #e8ddd4;
-    --text: #f5ede4;
-    --muted: #a08878;
+    --bg: #f7f2ec;
+    --surface: #ffffff;
+    --card: #fdf9f5;
+    --accent: #3d1f0a;
+    --accent2: #6b3a1f;
+    --text: #2d1a0e;
+    --muted: #9a7d65;
     --green: #3d7a52;
     --red: #b03030;
-    --border: #5a3520;
-    --highlight: #5a3520;
+    --border: #ddd0c0;
+    --highlight: #ede4d8;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,7 +51,7 @@
 
   .cart-btn {
     background: var(--accent);
-    color: #2b1608;
+    color: #ffffff;
     border: none;
     border-radius: 8px;
     padding: 8px 18px;
@@ -67,8 +67,8 @@
   .cart-btn:hover { background: var(--accent2); }
 
   .badge {
-    background: #2b1608;
-    color: #ffffff;
+    background: #ffffff;
+    color: var(--accent);
     border-radius: 50%;
     width: 22px;
     height: 22px;
@@ -206,7 +206,7 @@
     transition: all 0.15s;
   }
   .opt-btn:hover { border-color: var(--accent); }
-  .opt-btn.selected { background: var(--accent); color: #2b1608; border-color: var(--accent); font-weight: 700; }
+  .opt-btn.selected { background: var(--accent); color: #ffffff; border-color: var(--accent); font-weight: 700; }
   .opt-btn.disabled { opacity: 0.35; cursor: not-allowed; }
 
   .addon-row {
@@ -244,7 +244,7 @@
   .btn-add {
     flex: 2; padding: 12px;
     background: var(--accent); border: none;
-    color: #2b1608; border-radius: 8px;
+    color: #ffffff; border-radius: 8px;
     font-family: 'Sarabun', sans-serif; font-size: 15px; font-weight: 700;
     cursor: pointer;
     transition: background 0.2s;
@@ -326,7 +326,7 @@
 
   /* Config bar */
   .config-bar {
-    background: #1e0f05;
+    background: #ede4d8;
     border-top: 1px solid var(--border);
     padding: 8px 16px;
     font-size: 12px;
@@ -510,17 +510,17 @@ const nonCoffeeMenus = [
 ];
 
 const christmasMenus = [
-  { name:'Oreo Latte', en:'Oreo Latte', hot:89, cold:89, roast:true },
+  { name:'Oreo Latte', en:'Oreo Latte', cold:89, noHot:true, roast:true },
   { name:'Santa Sparkling', en:'Santa Sparkling', cold:65, noSweet:true, noHot:true, note:'เมนูโซดา' },
-  { name:'Matcha Strawberry', en:'Matcha Strawberry', hot:85, cold:85, noSweet:true },
-  { name:'Toffee Nut Latte', en:'Toffee Nut Latte', hot:79, cold:79, roast:true },
+  { name:'Matcha Strawberry', en:'Matcha Strawberry', cold:85, noHot:true, noZeroSweet:true, note:'เลือกหวานได้ ยกเว้นไม่หวาน' },
+  { name:'Toffee Nut Latte', en:'Toffee Nut Latte', cold:79, noHot:true, roast:true },
 ];
 
 const summerMenus = [
-  { name:'Banana Matcha Seasalt', en:'Banana Matcha Seasalt', cold:75, noSweet:true, noHot:true, note:'หวานจากนมกล้วย' },
-  { name:'Matcha Honey Lemon', en:'Matcha Honey Lemon', hot:75, cold:75 },
+  { name:'Banana Matcha Seasalt', en:'Banana Matcha Seasalt', cold:75, noZeroSweet:true, noHot:true, note:'หวานจากนมกล้วย' },
+  { name:'Matcha Honey Lemon', en:'Matcha Honey Lemon', cold:75, noHot:true },
   { name:'Americano Honey Lemon Soda', en:'Americano Honey Lemon Soda', cold:65, noHot:true },
-  { name:'Matcha Orange', en:'Matcha Orange', hot:75, cold:75 },
+  { name:'Matcha Orange', en:'Matcha Orange', cold:75, noHot:true, noSweet:true, note:'หวานจากน้ำส้ม' },
 ];
 
 // ============================================================
@@ -638,7 +638,8 @@ function openItemModal(m) {
     sweetEl.appendChild(msg);
     selSweet = 'ตามสูตร';
   } else {
-    SWEETS.forEach(s => {
+    const availableSweets = m.noZeroSweet ? [50, 100] : SWEETS;
+    availableSweets.forEach(s => {
       addOptBtn(sweetEl, String(s), `${s}%`, () => { selSweet=String(s); calcTotal(); });
     });
     selSweet = '100';
